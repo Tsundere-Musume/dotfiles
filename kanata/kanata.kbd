@@ -1,0 +1,75 @@
+;; Home row mods config
+;; https://github.com/jtroo/kanata/discussions/1656#discussioncomment-14382030
+
+(defcfg
+    process-unmapped-keys yes 
+    concurrent-tap-hold yes
+)
+
+(defvirtualkeys
+  fasttypingstate XX
+)
+
+(defvar
+  tot 200  ;; time out tap
+)
+
+(deftemplate type (action)
+  (multi
+    (fork
+       (hold-for-duration 55 fasttypingstate)
+       ;; PRE1.10 (hold-for-duration 55 fasttypingtoggle) ;; short timeouts seem to work best 
+      XX
+      (lctl rctl lalt ralt lmet rmet)
+    )
+    $action
+  )
+)
+
+(deftemplate homerowmod (timeouttap timeouthold keytap keyhold)
+  (switch
+    ((input virtual fasttypingstate)) (t! type $keytap) break
+    () (tap-hold $timeouttap $timeouthold
+         (t! type $keytap)
+         $keyhold
+       ) break
+  )
+)
+
+(defsrc
+  esc    f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  grv    1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab    q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps   a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft   z    x    c    v    b    n    m    ,    .    /    ▲   rsft
+     lctl  lalt lmet          spc         rmet ralt ◀    ▼    ▶
+)
+
+(deflayermap (base)
+ ;; define home row mods
+ ;; Index finger
+ f (t! homerowmod $tot 160 f lsft)
+ j (t! homerowmod $tot 160 j rsft)
+
+ ;; Middle finger
+ d (t! homerowmod $tot 180 d lctl)
+ k (t! homerowmod $tot 180 k rctl)
+
+ ;; Ring finger
+ s (t! homerowmod $tot 300 s lmet)
+ l (t! homerowmod $tot 300 l rmet)
+
+ ;; Pinky finger
+ a (t! homerowmod $tot 400 a lalt)
+ ; (t! homerowmod $tot 400 ; ralt)
+
+ ;; define each letter
+q (t! type q) w (t! type w) e (t! type e) r (t! type r) t (t! type t)
+y (t! type y) u (t! type u) i (t! type i) o (t! type o) p (t! type p)
+ ;; a (t! type a) s (t! type s) d (t! type d) f (t! type f) 
+g (t! type g) h (t! type h)
+;;  j (t! type j) k (t! typek) l (t! type l)
+ z (t! type z) x (t! type x) c (t! type c) v (t! type v) b (t! type b) 
+ n (t! type n) m (t! type m) 
+)
+
