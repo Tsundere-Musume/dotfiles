@@ -4,6 +4,7 @@
 (defcfg
     process-unmapped-keys yes 
     concurrent-tap-hold yes
+    log-layer-changes no
 )
 
 (defvirtualkeys
@@ -11,7 +12,8 @@
 )
 
 (defvar
-  tot 200  ;; time out tap
+  tot 220  ;; time out tap
+  chord_to 30
 )
 
 (deftemplate type (action)
@@ -20,7 +22,8 @@
        (hold-for-duration 55 fasttypingstate)
        ;; PRE1.10 (hold-for-duration 55 fasttypingtoggle) ;; short timeouts seem to work best 
       XX
-      (lctl rctl lalt ralt lmet rmet)
+      (lctl rctl lalt ralt lmet rmet) 
+	                                                                                    
     )
     $action
   )
@@ -36,40 +39,84 @@
   )
 )
 
-(defsrc
-  esc    f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
-  grv    1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab    q    w    e    r    t    y    u    i    o    p    [    ]    \
-  caps   a    s    d    f    g    h    j    k    l    ;    '    ret
-  lsft   z    x    c    v    b    n    m    ,    .    /    ▲   rsft
-     lctl  lalt lmet          spc         rmet ralt ◀    ▼    ▶
+(defsrc 
+    q    w    e    r    t    y    u    i    o    p  
+    a    s    d    f    g    h    j    k    l    ; 
+    z    x    c    v    b    n    m    ,    .    / 
+		lalt          spc         ralt    
 )
 
 (deflayermap (base)
  ;; define home row mods
- ;; Index finger
- f (t! homerowmod $tot 160 f lsft)
- j (t! homerowmod $tot 160 j rsft)
+     ;; Index finger
+     f (t! homerowmod $tot 160 f lsft)
+     j (t! homerowmod $tot 160 j rsft)
 
- ;; Middle finger
- d (t! homerowmod $tot 180 d lctl)
- k (t! homerowmod $tot 180 k rctl)
+     ;; Navigation layer
+     v @lsym
+     n @rsym
 
- ;; Ring finger
- s (t! homerowmod $tot 300 s lmet)
- l (t! homerowmod $tot 300 l rmet)
+     ;; Middle finger
+     d (t! homerowmod $tot 180 d lctl)
+     k (t! homerowmod $tot 180 k rctl)
 
- ;; Pinky finger
- a (t! homerowmod $tot 400 a lalt)
- ; (t! homerowmod $tot 400 ; ralt)
+     ;; Ring finger
+     s (t! homerowmod $tot 300 s lmet)
+     l (t! homerowmod $tot 300 l rmet)
+
+     ;; Pinky finger
+     a (t! homerowmod $tot 400 a lalt)
+     ; (t! homerowmod $tot 400 - ralt)
 
  ;; define each letter
 q (t! type q) w (t! type w) e (t! type e) r (t! type r) t (t! type t)
 y (t! type y) u (t! type u) i (t! type i) o (t! type o) p (t! type p)
  ;; a (t! type a) s (t! type s) d (t! type d) f (t! type f) 
 g (t! type g) h (t! type h)
-;;  j (t! type j) k (t! typek) l (t! type l)
- z (t! type z) x (t! type x) c (t! type c) v (t! type v) b (t! type b) 
- n (t! type n) m (t! type m) 
+;;  j (t! type j) k (t! type k) l (t! type l)
+ z (t! type z) x (t! type x) c (t! type c)  b (t! type b) 
+  m (t! type m) 
+
+
+  ;; thumb
+  lalt @lnum
 )
 
+(deflayer symlayer 
+;;  a     s     d     f     g     h     j     k     l     ;  
+    XX    S-2   [     ]     =     S-6   S-9   S-0   S-;   S-/   ;;Q
+    XX    S-1   S-,   S-.   S-8   S-3   S-[   S-]   ;     S-'   ;;A
+    S-\   /     S-4   S-5   S-=   S-7   \     ,     .     /     ;;Z
+		lalt          spc         ralt    
+)
+
+(deflayer numlayer 
+;;  a     s     d     f     g     h     j     k     l     ;  
+    XX    XX    XX    XX    XX    XX    7     8     9     XX    ;;Q
+    lalt  lmet  lctl  lsft  XX    XX    4     5     6     XX    ;;A
+    XX    XX    XX    XX    XX    0     1     2     3     .     ;;Z
+		lalt          spc         ralt    
+)
+
+(defalias
+    ;; symbol layer
+    lsym (tap-hold 220 160 v (layer-toggle symlayer))
+    rsym (tap-hold 220 160 n (layer-toggle symlayer))
+
+    ;; number layer
+    lnum (tap-hold 220 160 bspc (layer-toggle numlayer))
+)
+
+(defchordsv2
+    (w e)   esc     $chord_to    all-released()
+    (x c)   tab     $chord_to    all-released()
+    (i o)   ret     $chord_to    all-released()
+)
+
+(deflayer template 
+;;  a     s     d     f     g     h     j     k     l     ;  
+    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    ;;Q
+    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    ;;A
+    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    ;;Z
+		lalt          spc         ralt    
+)
