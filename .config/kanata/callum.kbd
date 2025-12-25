@@ -1,0 +1,115 @@
+(defcfg
+	process-unmapped-keys yes
+	concurrent-tap-hold yes
+	log-layer-changes no
+	;;block-unmapped-keys yes
+)
+
+(defvirtualkeys
+	cancel  XX
+)
+
+(defvar
+	ost	  250
+	chord 30
+)
+
+(defsrc
+    q    w    e    r    t    y    u    i    o    p
+    a    s    d    f    g    h    j    k    l    ;
+    z    x    c    v    b    n    m    ,    .    /
+		lalt          spc         ralt
+)
+
+(deflayer base
+    q    w    e    r    t    y    u    i    o    p
+    a    s    d    f    g    h    j    k    l    -
+    z    x    c    v    b    n    m    ,    .    /
+		@los          spc         @ros
+)
+
+(deflayer symbol_left
+;;  a     s     d     f     g     h     j     k     l     ;
+    grv   S-,   S-2   -     S-\   XX    XX    XX    XX    XX    ;;Q
+    S-1   S-8   /     =     S-7   XX    @rsft @rctl @rmet @ralt ;;A
+    S-grv S-=   [     ]     S-5   XX    XX    XX    XX    XX    ;;Z
+				lalt          spc         ralt
+)
+
+(deflayer symbol_right
+;;  a     s     d     f     g     h     j     k     l     ;
+    XX    XX    XX    XX    XX    S-6   S-[   S-]   S-4   XX   ;;Q
+    @lalt @lmet @lctl @lsft XX    S-3   S-9   S-0   ;     S-'  ;;A
+    XX    XX    XX    XX    XX    S-2   S-;   ,     .     '    ;;Z
+				lalt          spc         ralt
+)
+
+(deflayer num
+;;  a     s     d     f     g     h     j     k     l     ;
+    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    ;;Q
+    1     2     3     4     5     6     7     8     9     0     ;;A
+    XX    XX    XX    XX    XX    XX    XX    ,     .     XX    ;;Z
+		lalt          spc         (t! cl @cancel)
+)
+
+(deftemplate cl (key)
+   (multi $key @base)
+)
+
+(deftemplate os (key)
+	(one-shot-press-pcancel $ost $key)
+)
+
+(defalias 
+	;; one shot layers
+	ros (one-shot-press-pcancel $ost (layer-while-held symbol_left))
+	los (one-shot-press-pcancel $ost (layer-while-held symbol_right))
+
+	;; one shot modifiers
+	lalt (t! os lalt)
+	lsft (t! os lsft)
+	lctl (t! os lctl)
+	lmet (t! os lmet)
+	ralt (t! os ralt)
+	rsft (t! os rsft)
+	rctl (t! os rctl)
+	rmet (t! os rmet)
+
+	  cwc (caps-word-custom
+    2000
+    (a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4 5 6 7 8 9)
+    (kp0 kp1 kp2 kp3 kp4 kp5 kp6 kp7 kp8 kp9 bspc del up down left rght)
+	  )
+
+	;;layer-switches
+	base (layer-switch base)
+	num (layer-switch num)
+
+	;;
+	cancel (on-press press-virtualkey cancel)
+)
+
+(defchordsv2
+	;; Shift in normal layer (one-tap)
+	(d f)	(t!  os lsft)	$chord	all-released()
+	(j k)	(t!  os rsft)	$chord	all-released()
+
+	(k l)	bspc	$chord	all-released()
+	(k l ;) C-bspc	$chord	all-released()
+
+	(c v)	tab		$chord	all-released()
+	(s d)	esc		$chord	all-released()
+	(u i)	ret		$chord	all-released()
+
+	;; caps-word
+	(a ;) 	(caps-word 2000)	$chord	all-released()
+
+	;;numlayer
+	(lalt ralt)	@num $chord all-released()
+
+
+	;;symbols for base layer
+	(, .)	'	$chord all-released()
+	(m ,)	;	$chord all-released()
+) 
+
