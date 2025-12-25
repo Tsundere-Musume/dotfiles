@@ -2,7 +2,7 @@
 ;; https://github.com/jtroo/kanata/discussions/1656#discussioncomment-14382030
 
 (defcfg
-    process-unmapped-keys yes 
+    process-unmapped-keys yes
     concurrent-tap-hold yes
     log-layer-changes no
 )
@@ -20,10 +20,10 @@
   (multi
     (fork
        (hold-for-duration 55 fasttypingstate)
-       ;; PRE1.10 (hold-for-duration 55 fasttypingtoggle) ;; short timeouts seem to work best 
+       ;; PRE1.10 (hold-for-duration 55 fasttypingtoggle) ;; short timeouts seem to work best
       XX
-      (lctl rctl lalt ralt lmet rmet) 
-	                                                                                    
+      (lctl rctl lalt ralt lmet rmet)
+
     )
     $action
   )
@@ -39,11 +39,11 @@
   )
 )
 
-(defsrc 
-    q    w    e    r    t    y    u    i    o    p  
-    a    s    d    f    g    h    j    k    l    ; 
-    z    x    c    v    b    n    m    ,    .    / 
-		lalt          spc         ralt    
+(defsrc
+    q    w    e    r    t    y    u    i    o    p
+    a    s    d    f    g    h    j    k    l    ;
+    z    x    c    v    b    n    m    ,    .    /
+		lalt          spc         ralt
 )
 
 (deflayermap (base)
@@ -53,8 +53,8 @@
      j (t! homerowmod $tot 160 j rsft)
 
      ;; Navigation layer
-     v @lsym
-     n @rsym
+     c @lsym
+     m @rsym
 
      ;; Middle finger
      d (t! homerowmod $tot 180 d lctl)
@@ -71,37 +71,37 @@
  ;; define each letter
 q (t! type q) w (t! type w) e (t! type e) r (t! type r) t (t! type t)
 y (t! type y) u (t! type u) i (t! type i) o (t! type o) p (t! type p)
- ;; a (t! type a) s (t! type s) d (t! type d) f (t! type f) 
+ ;; a (t! type a) s (t! type s) d (t! type d) f (t! type f)
 g (t! type g) h (t! type h)
 ;;  j (t! type j) k (t! type k) l (t! type l)
- z (t! type z) x (t! type x) c (t! type c)  b (t! type b) 
-  m (t! type m) 
+ z (t! type z) x (t! type x) v (t! type v)  b (t! type b)
+  n (t! type n)
 
 
   ;; thumb
   lalt @lnum
 )
 
-(deflayer symlayer 
-;;  a     s     d     f     g     h     j     k     l     ;  
-    XX    S-2   [     ]     =     S-6   S-9   S-0   S-;   S-/   ;;Q
-    XX    S-1   S-,   S-.   S-8   S-3   S-[   S-]   ;     S-'   ;;A
+(deflayer symlayer
+;;  a     s     d     f     g     h     j     k     l     ;
+    S-grv S-2   [     ]     =     S-6   S-9   S-0   S-;   S-/   ;;Q
+    grv   S-1   S-,   S-.   S-8   S-3   S-[   S-]   ;     S-'   ;;A
     S-\   /     S-4   S-5   S-=   S-7   \     ,     .     /     ;;Z
-		lalt          spc         ralt    
+		lalt          spc         ralt
 )
 
-(deflayer numlayer 
-;;  a     s     d     f     g     h     j     k     l     ;  
+(deflayer numlayer
+;;  a     s     d     f     g     h     j     k     l     ;
     XX    XX    XX    XX    XX    XX    7     8     9     XX    ;;Q
     lalt  lmet  lctl  lsft  XX    XX    4     5     6     XX    ;;A
     XX    XX    XX    XX    XX    0     1     2     3     .     ;;Z
-		lalt          spc         ralt    
+		lalt          spc         ralt
 )
 
 (defalias
     ;; symbol layer
-    lsym (tap-hold 220 160 v (layer-toggle symlayer))
-    rsym (tap-hold 220 160 n (layer-toggle symlayer))
+    lsym (tap-hold 220 160 c (layer-toggle symlayer))
+    rsym (tap-hold 220 160 m (layer-toggle symlayer))
 
     ;; number layer
     lnum (tap-hold 220 160 bspc (layer-toggle numlayer))
@@ -110,13 +110,13 @@ g (t! type g) h (t! type h)
 (defchordsv2
     (w e)   esc     $chord_to    all-released()
     (x c)   tab     $chord_to    all-released()
-    (i o)   ret     $chord_to    all-released()
+    (l ;)   ret     $chord_to    all-released()
 )
 
-(deflayer template 
-;;  a     s     d     f     g     h     j     k     l     ;  
+(deflayer template
+;;  a     s     d     f     g     h     j     k     l     ;
     XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    ;;Q
     XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    ;;A
     XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    ;;Z
-		lalt          spc         ralt    
+		lalt          spc         ralt
 )
