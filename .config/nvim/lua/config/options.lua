@@ -13,3 +13,13 @@ set.showmode = false
 set.breakindent = false
 set.signcolumn = "yes"
 set.cursorline = true
+
+set.iskeyword:append("-")
+set.updatetime = 50
+
+-- undo dir settings
+set.swapfile = false
+set.backup = false
+set.undodir = os.getenv("HOME") .. "/.vim/undodir"
+set.undofile = true
+
