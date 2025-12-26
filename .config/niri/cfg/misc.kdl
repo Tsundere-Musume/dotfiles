@@ -1,0 +1,14 @@
+prefer-no-csd
+screenshot-path null
+
+cursor {
+    hide-when-typing
+    hide-after-inactive-ms 1000
+}
+
+animations {
+    slowdown 0.5
+    window-close {
+        off
+    }
+}

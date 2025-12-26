@@ -6,8 +6,7 @@ return {
     "onsails/lspkind.nvim",
     "nvim-tree/nvim-web-devicons",
   },
-  version = "*",
-  build = "cargo build --release",
+  version = "1.*",
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
   opts = {

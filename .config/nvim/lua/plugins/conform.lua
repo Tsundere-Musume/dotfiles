@@ -17,6 +17,7 @@ return {
       lua = { "stylua" },
       python = { "ruff" },
       markdown =  {"prettier"},
+      kdl = {"kdlfmt"},
     },
     default_format_opts = {
       lsp_format = "fallback",

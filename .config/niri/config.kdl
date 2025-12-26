@@ -1,0 +1,15 @@
+// dank config
+include "./dms/colors.kdl"
+include "./dms/alttab.kdl"
+include "./dms/layout.kdl"
+include "./dms/wpblur.kdl"
+
+include "./cfg/input.kdl"
+include "./cfg/output.kdl"
+include "./cfg/rules.kdl"
+include "./cfg/animations.kdl"
+include "./cfg/layout.kdl"
+include "./cfg/binds.kdl"
+include "./cfg/environment.kdl"
+include "./cfg/misc.kdl"
+

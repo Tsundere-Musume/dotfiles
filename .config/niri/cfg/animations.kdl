@@ -1,0 +1,6 @@
+animations {
+    slowdown 0.5
+    window-close {
+        off
+    }
+}
