@@ -98,6 +98,14 @@ g (t! type g) h (t! type h)
 		lalt          spc         ralt
 )
 
+(deflayer navlayer
+;;  a     s     d     f     g     h     j     k     l     ;
+    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    ;;Q
+    XX    XX    XX    XX    XX    lft   down  up    rght  XX    ;;A
+    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    ;;Z
+		lalt          spc         ralt
+)
+
 (defalias
     ;; symbol layer
     lsym (tap-hold 220 160 c (layer-toggle symlayer))

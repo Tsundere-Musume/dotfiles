@@ -1,0 +1,6 @@
+(defalias
+	term (cmd sh -c "niri msg action focus-workspace terminal")
+	pbrows (cmd sh -c "niri msg action focus-workspace personal-browser")
+	brows (cmd sh -c "niri msg action focus-workspace browser")
+	misc (cmd sh -c "niri msg action focus-workspace misc")
+)

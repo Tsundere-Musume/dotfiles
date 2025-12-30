@@ -1,0 +1,193 @@
+(defcfg
+    process-unmapped-keys yes
+    concurrent-tap-hold yes
+    log-layer-changes no
+    block-unmapped-keys yes
+    danger-enable-cmd yes
+)
+
+(defvirtualkeys
+    cancel  XX
+)
+
+(defvar
+    ost   250
+    chord 40
+    tap-time 150
+    hold-time 180
+)
+
+(include external-binds.kbd)
+
+(defsrc
+    1       2       3       4       5       6       7       8       9       0   
+	q		w		e		r		t	   	y       u		i		o		p   
+    a		s		d		f		g	   	h       j		k		l		;   
+     		 		x		c       n       m
+)
+
+(deflayer base
+	q		w		e		r		t		y		u		i		o		p
+    a		s		d		f		g		h		j		k		l		-
+    z		x		c		v		b		n		m		,		.		/
+     		 @los	@nav	            spc    @ros
+)
+
+(deflayer colemak
+    q		w		f		p		b		j		l		u		y		-
+    a		r		s		t		g		m		n		e		w		o
+    x		c		d		v		z		k		h		,		.		/
+     		 	XX		@los            @ros    @spc
+)
+
+
+(deflayer symbol_left
+;;  a       s       d       f       g       h       j       k       l       ;
+    grv     S-,     S-.     -       S-\     XX      XX      XX      XX      XX
+    S-1     S-8     /       =       S-7     XX      @rsft   @rctl   @rmet   @ralt
+    S-grv   S-=     [       ]       S-5     XX      XX      XX      XX      XX
+     		 	XX		_            _    _
+)
+
+(deflayer symbol_right
+;;  a      s     d     f     g     h     j     k     l     ;
+    XX     C-w   XX    C-a   XX    S-6   S-[   S-]   S-4   XX   ;;Q
+    @lalt  @lmet @lctl @lsft XX    S-3   S-9   S-0   ;     S-'  ;;A
+    C-z    C-x   C-c   XX    XX    S-2   S-;   ,     .     '    ;;Z
+            XX  lalt          spc         ralt
+)
+
+(deflayer num
+;;  a     s     d     f     g     h     j     k     l     ;
+    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    ;;Q
+    1     2     3     4     5     6     7     8     9     0     ;;A
+    XX    XX    XX    XX    XX    XX    XX    ,     .     XX    ;;Z
+        XX lalt       (t! cl spc)     (t! cl @cancel)
+)
+
+;; config for Niri
+(deflayer winmgr
+;;  a     s     d     f     g     h     j     k     l     ;
+    XX    XX    XX    XX    XX    XX    @wm_u @wm_i XX    XX   ;;Q
+    XX    XX    XX    XX    XX    @wm_h @wm_j @wm_k @wm_l M-t  ;;A
+    @lsft XX    XX    @lctl  XX    XX   @term @pbrows @brows @misc ;;Z
+        XX lalt       M-q     (t! cl @cancel)
+)
+
+;;(deflayer winmgr
+;;;;  a     s     d     f     g     h     j     k     l     ;
+;;    XX    XX    XX    XX    XX    XX    5     6     7     8    ;;Q
+;;    @lalt @lmet @lctl @lsft XX    XX    1     2     3     4    ;;A
+;;    9     XX    XX    0    XX    XX    XX    ,     .     XX    ;;Z
+;;      lalt       (t! cl spc)     (t! cl @cancel)
+;;)
+
+(deflayer navlayer
+;;  a     s     d     f     g     h     j     k     l     ;
+    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    ;;Q
+    XX    XX    XX    XX    XX    lft   down  up    rght  XX    ;;A
+    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    ;;Z
+        XX lalt          spc         ralt
+)
+
+(deftemplate cl (key)
+   (multi $key @base)
+)
+
+(deftemplate os (key)
+    (one-shot-press-pcancel $ost $key)
+)
+
+(deftemplate  winmgr_item (key)
+    (switch 
+        ((and (and lsft lctl) (layer winmgr))) (multi lmet lctl lsft $key) break
+        ((and (and lsft) (layer winmgr))) (multi lmet lsft $key) break
+        ((and (and lctl) (layer winmgr))) (multi lmet lctl $key) break
+        () (multi lmet $key) break
+    )
+)
+
+(defalias 
+    ;; one shot layers
+    ros (one-shot-press-pcancel $ost (layer-while-held symbol_left))
+    los (one-shot-press-pcancel $ost (layer-while-held symbol_right))
+
+    ;; one shot modifiers
+    lalt (t! os lalt)
+    lsft (t! os lsft)
+    lctl (t! os lctl)
+    lmet (t! os lmet)
+    ralt (t! os ralt)
+    rsft (t! os rsft)
+    rctl (t! os rctl)
+    rmet (t! os rmet)
+
+    spc  (tap-hold $tap-time $hold-time spc (layer-while-held navlayer))
+    nav  (tap-hold $tap-time $hold-time XX (layer-while-held navlayer))
+      cwc (caps-word-custom
+    2000
+    (a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4 5 6 7 8 9)
+    (kp0 kp1 kp2 kp3 kp4 kp5 kp6 kp7 kp8 kp9 bspc del up down left rght)
+      )
+
+    ;;layer-switches
+    base (layer-switch base)
+    num (layer-switch num)
+
+    ;;
+    cancel (on-press press-virtualkey cancel)
+
+    ;; window manager
+    wm_1 (tap-hold $tap-time $hold-time (t! winmgr_item 1) M-S-1)
+    wm_2 (tap-hold $tap-time $hold-time (t! winmgr_item 2) M-S-2)
+    wm_3 (tap-hold $tap-time $hold-time (t! winmgr_item 3) M-S-3)
+    wm_4 (tap-hold $tap-time $hold-time (t! winmgr_item 4) M-S-4)
+    wm_5 (tap-hold $tap-time $hold-time (t! winmgr_item 5) M-S-5)
+    wm_6 (tap-hold $tap-time $hold-time (t! winmgr_item 6) M-S-6)
+    wm_7 (tap-hold $tap-time $hold-time (t! winmgr_item 7) M-S-7)
+    wm_8 (tap-hold $tap-time $hold-time (t! winmgr_item 8) M-S-8)
+    wm_9 (tap-hold $tap-time $hold-time (t! winmgr_item 9) M-S-9)
+    wm_0 (tap-hold $tap-time $hold-time (t! winmgr_item 0) M-S-0)
+    wm_h (tap-hold $tap-time $hold-time (t! winmgr_item h) M-S-h)
+    wm_j (tap-hold $tap-time $hold-time (t! winmgr_item j) M-S-j)
+    wm_k (tap-hold $tap-time $hold-time (t! winmgr_item k) M-S-k)
+    wm_l (tap-hold $tap-time $hold-time (t! winmgr_item l) M-S-l)
+    wm_u (tap-hold $tap-time $hold-time (t! winmgr_item u) M-S-u)
+    wm_i (tap-hold $tap-time $hold-time (t! winmgr_item i) M-S-i)
+
+
+    ch_layout (switch
+        ((base-layer base)) (layer-switch colemak) break
+        ((base-layer colemak))  (layer-switch base) break
+    )
+
+    
+)
+
+(defchordsv2
+    ;; Shift in normal layer (one-tap)
+    (e r)   (t!  os lsft)   $chord  all-released()
+    (u i)   (t!  os rsft)   $chord  all-released()
+
+    (i o)   bspc    $chord  all-released()
+    (i o p) C-bspc  $chord  all-released()
+
+    (d f)   tab     $chord  all-released()
+    (w e)   esc     $chord  all-released()
+    (7 8)   ret     $chord  all-released()
+
+    ;;m caps-word
+    (q p)   (caps-word 2000)    $chord  all-released()
+
+    ;;numlayer
+    (x m)  (one-shot-press-pcancel 400 (layer-while-held num)) $chord all-released()
+
+
+    ;;symbols for base layer
+    (k l)   '   $chord all-released()
+    (j k)   ;   $chord all-released()
+
+
+    (s d)   (one-shot-press-pcancel 400 (layer-while-held winmgr)) $chord all-released()
+) 
+
