@@ -2,10 +2,22 @@ return {
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
     branch = "main",
-    dependencies = { {
-      "nvim-treesitter/nvim-treesitter",
-      build = ":TSUpdate",
-    } },
+    dependencies = {
+      {
+        "nvim-treesitter/nvim-treesitter",
+        build = ":TSUpdate",
+        lazy = false,
+        config = function()
+          vim.api.nvim_create_autocmd("FileType", {
+            pattern = { "elixir", "rust", "markdown" },
+            callback = function(args)
+              vim.treesitter.start()
+              vim.bo[args.buf].syntax = "ON" -- only if additional legacy syntax is needed
+            end,
+          })
+        end,
+      },
+    },
     init = function()
       require("nvim-treesitter-textobjects").setup({
         select = {

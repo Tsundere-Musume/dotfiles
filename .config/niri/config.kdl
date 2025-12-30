@@ -13,3 +13,4 @@ include "./cfg/binds.kdl"
 include "./cfg/environment.kdl"
 include "./cfg/misc.kdl"
 
+spawn-sh-at-startup "systemctl --user restart kanata.service";

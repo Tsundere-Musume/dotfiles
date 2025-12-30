@@ -3,13 +3,17 @@ input {
         xkb {
 
         }
+		repeat-delay 200
+		repeat-rate 35
         numlock
     }
     touchpad {
         tap
         dwt
         natural-scroll
-        scroll-factor 0.5
+        scroll-factor 0.3
+		accel-speed 0.3
+        accel-profile "flat"
     }
     mouse {
         accel-profile "flat"

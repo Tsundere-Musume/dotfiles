@@ -16,7 +16,7 @@ return {
     formatters_by_ft = {
       lua = { "stylua" },
       python = { "ruff" },
-      markdown =  {"prettier"},
+      markdown =  {"prettier", "markdownlint-cli2"},
       kdl = {"kdlfmt"},
     },
     default_format_opts = {

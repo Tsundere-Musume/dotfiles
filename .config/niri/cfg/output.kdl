@@ -1,19 +1,37 @@
 output "eDP-2" {
     mode "1920x1080@144"
     variable-refresh-rate
+	focus-at-startup
     scale 1
     transform "normal"
-    position x=0 y=1080
+    position x=1080 y=0
     hot-corners {
         off
     }
 }
+
 output "HDMI-A-1" {
     mode "1920x1080@60"
     scale 1
-    transform "normal"
+    transform "90"
     position x=0 y=0
     hot-corners {
         off
     }
+}
+
+workspace "terminal" {
+	open-on-output "eDP-2"
+}
+
+workspace "personal-browser" {
+	open-on-output "eDP-2"
+}
+
+workspace "browser" {
+	open-on-output "eDP-2"
+}
+
+workspace "misc" {
+	open-on-output "eDP-2"
 }
