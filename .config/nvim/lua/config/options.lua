@@ -23,3 +23,5 @@ set.backup = false
 set.undodir = os.getenv("HOME") .. "/.vim/undodir"
 set.undofile = true
 
+
+set.conceallevel = 2

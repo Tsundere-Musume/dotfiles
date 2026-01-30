@@ -23,11 +23,15 @@ return {
       nerd_font_variant = "mono",
     },
 
-    signature = { enabled = true },
+    signature = { window = { border = "single" } },
 
     completion = {
       menu = {
-        auto_show = false,
+        -- auto_show = true,
+        auto_show = function(ctx, items)
+          return vim.bo.filetype == "markdown"
+        end,
+        -- auto_show_delay_ms = 500,
         draw = {
           components = {
             kind_icon = {

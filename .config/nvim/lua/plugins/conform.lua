@@ -17,7 +17,9 @@ return {
       lua = { "stylua" },
       python = { "ruff" },
       markdown =  {"prettier", "markdownlint-cli2"},
+      java =  {"google-java-format"},
       kdl = {"kdlfmt"},
+      tex = {"latexindent"},
     },
     default_format_opts = {
       lsp_format = "fallback",

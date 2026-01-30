@@ -4,6 +4,7 @@
     log-layer-changes no
     block-unmapped-keys yes
     danger-enable-cmd yes
+    rapid-event-delay 0
 )
 
 (defvirtualkeys
@@ -95,7 +96,7 @@
 )
 
 (deftemplate os (key)
-    (one-shot-press-pcancel $ost $key)
+    (one-shot-press $ost $key)
 )
 
 (deftemplate  winmgr_item (key)
@@ -109,8 +110,8 @@
 
 (defalias 
     ;; one shot layers
-    ros (one-shot-press-pcancel $ost (layer-while-held symbol_left))
-    los (one-shot-press-pcancel $ost (layer-while-held symbol_right))
+    ros (one-shot-press $ost (layer-while-held symbol_left))
+    los (one-shot-press $ost (layer-while-held symbol_right))
 
     ;; one shot modifiers
     lalt (t! os lalt)
@@ -166,8 +167,10 @@
 
 (defchordsv2
     ;; Shift in normal layer (one-tap)
-    (e r)   (t!  os lsft)   $chord  all-released()
-    (u i)   (t!  os rsft)   $chord  all-released()
+    (e r)   lsft  $chord all-released()
+    (u i)   rsft  $chord all-released()
+    ;;(e r)   (t!  os lsft)   $chord  all-released()
+    ;;(u i)   (t!  os rsft)   $chord  all-released()
 
     (i o)   bspc    $chord  all-released()
     (i o p) C-bspc  $chord  all-released()
@@ -180,7 +183,7 @@
     (q p)   (caps-word 2000)    $chord  all-released()
 
     ;;numlayer
-    (x m)  (one-shot-press-pcancel 400 (layer-while-held num)) $chord all-released()
+    (x m)  (one-shot-press 400 (layer-while-held num)) $chord all-released()
 
 
     ;;symbols for base layer
@@ -188,6 +191,6 @@
     (j k)   ;   $chord all-released()
 
 
-    (s d)   (one-shot-press-pcancel 400 (layer-while-held winmgr)) $chord all-released()
+    (s d)   (one-shot-press 400 (layer-while-held winmgr)) $chord all-released()
 ) 
 

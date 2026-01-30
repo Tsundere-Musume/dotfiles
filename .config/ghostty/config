@@ -1,5 +1,6 @@
-font-size=18
-font-family=IosevkaTerm NF
+font-size=17
+#adjust-cell-width=-2%
+font-family=Iosevka NTN Semi-Condensed
 mouse-hide-while-typing=true
 theme=Kanagawa Dragon
 #config-file="config-dankcolors"
